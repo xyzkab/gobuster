@@ -16,6 +16,7 @@ type Result struct {
 	Entity string
 	Status int
 	Extra  string
+	Extras []string
 	Size   *int64
 }
 
@@ -62,6 +63,7 @@ type State struct {
 	Wordlist       string
 	OutputFileName string
 	OutputFile     *os.File
+	OutputJson     bool
 	IsWildcard     bool
 	WildcardForced bool
 	WildcardIps    StringSet
