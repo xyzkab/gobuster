@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"strings"
+  "encoding/json"
 
 	uuid "github.com/satori/go.uuid"
 )
@@ -43,9 +44,11 @@ func ProcessDnsEntry(s *State, word string, resultChan chan<- Result) {
 			result := Result{
 				Entity: subdomain,
 			}
-			if s.ShowIPs {
+			if s.ShowIPs && !s.OutputJson {
 				result.Extra = strings.Join(ips, ", ")
-			} else if s.ShowCNAME {
+			} else if s.ShowIPs && s.OutputJson {
+				result.Extras = ips
+      } else if s.ShowCNAME {
 				cname, err := net.LookupCNAME(subdomain)
 				if err == nil {
 					result.Extra = cname
@@ -66,8 +69,15 @@ func PrintDnsResult(s *State, r *Result) {
 	output := ""
 	if r.Status == 404 {
 		output = fmt.Sprintf("Missing: %s\n", r.Entity)
-	} else if s.ShowIPs {
+	} else if s.ShowIPs && !s.OutputJson {
 		output = fmt.Sprintf("Found: %s [%s]\n", r.Entity, r.Extra)
+	} else if s.ShowIPs && s.OutputJson {
+		jsonResult, _ := json.Marshal(map[string]interface{}{
+			"state": "found",
+			"subdomain": r.Entity,
+			"ipaddress": r.Extras,
+		})
+		output = fmt.Sprintf("%s\n",jsonResult)
 	} else if s.ShowCNAME {
 		output = fmt.Sprintf("Found: %s [%s]\n", r.Entity, r.Extra)
 	} else {
