@@ -58,6 +58,10 @@ func ShowConfig(s *State) {
 			fmt.Printf("[+] Output file  : %s\n", s.OutputFileName)
 		}
 
+		if s.OutputJson {
+			fmt.Printf("[+] Output/format: json\n")
+		}
+
 		if s.Mode == "dir" {
 			fmt.Printf("[+] Status codes : %s\n", s.StatusCodes.Stringify())
 
