@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net"
 	"strings"
-  "encoding/json"
+	"encoding/json"
 
 	uuid "github.com/satori/go.uuid"
 )
@@ -48,7 +48,7 @@ func ProcessDnsEntry(s *State, word string, resultChan chan<- Result) {
 				result.Extra = strings.Join(ips, ", ")
 			} else if s.ShowIPs && s.OutputJson {
 				result.Extras = ips
-      } else if s.ShowCNAME {
+			} else if s.ShowCNAME {
 				cname, err := net.LookupCNAME(subdomain)
 				if err == nil {
 					result.Extra = cname
