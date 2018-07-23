@@ -20,7 +20,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/OJ/gobuster/libgobuster"
+	"github.com/xyzkab/gobuster/libgobuster"
 )
 
 // Parse all the command line options into a settings
