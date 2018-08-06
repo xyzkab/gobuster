@@ -73,8 +73,8 @@ func PrintDnsResult(s *State, r *Result) {
 		output = fmt.Sprintf("Found: %s [%s]\n", r.Entity, r.Extra)
 	} else if s.ShowIPs && s.OutputJson {
 		jsonResult, _ := json.Marshal(map[string]interface{}{
-			"state": "found",
-			"subdomain": r.Entity,
+			"name": s.Url,
+			"subname": r.Entity,
 			"ipaddress": r.Extras,
 		})
 		output = fmt.Sprintf("%s\n",jsonResult)
