@@ -16,7 +16,16 @@ func SetupDns(s *State) bool {
 	if err == nil {
 		s.IsWildcard = true
 		s.WildcardIps.AddRange(wildcardIps)
-		fmt.Println("[-] Wildcard DNS found. IP address(es): ", s.WildcardIps.Stringify())
+    if s.OutputJson {
+      jsonResult, _ := json.Marshal(map[string]interface{}{
+        "name": s.Url,
+        "subname": "*." + s.Url,
+        "ipaddress": wildcardIps,
+      })
+      fmt.Println(fmt.Sprintf("%s", jsonResult))
+		} else {
+      fmt.Println("[-] Wildcard DNS found.. IP address(es): ", s.WildcardIps.Stringify())
+    }
 		if !s.WildcardForced {
 			fmt.Println("[-] To force processing of Wildcard DNS, specify the '-fw' switch.")
 		}
